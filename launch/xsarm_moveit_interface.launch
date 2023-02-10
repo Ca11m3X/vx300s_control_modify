@@ -18,6 +18,7 @@
   <arg name="use_cpp_interface" default="false"/>
   <arg name="moveit_interface_gui" default="false"/>
   <arg name="use_python_interface" default="false"/>
+  <arg name="plot" default="false"/>
 
   <include file="$(find vx300s_control_modify)/launch/xsarm_moveit.launch">
     <arg name="robot_model" value="$(arg robot_model)"/>
@@ -40,7 +41,7 @@
   <group if="$(arg use_cpp_interface)">
 
     <node name="moveit_interface" pkg="vx300s_control_modify" type="moveit_interface" respawn="false" output="screen" ns="$(arg robot_name)"/>
-
+    <node if="$(arg plot)" name="plot" pkg="vx300s_control_modify" type="plot.py"/>
     <node if="$(arg moveit_interface_gui)" name="moveit_interface_gui" pkg="interbotix_moveit_interface" type="moveit_interface_gui" output="screen" ns="$(arg robot_name)"/>
 
   </group>

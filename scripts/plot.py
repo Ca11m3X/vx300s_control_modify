@@ -2,6 +2,7 @@
 
 import rospy
 import matplotlib.pyplot as plt
+import os
 import numpy as np
 from moveit_msgs.msg import RobotTrajectory
 
@@ -14,12 +15,12 @@ def plotting_funct(trajectory: RobotTrajectory):
     global count
     count += 1
 
-    for i in range(joint_names):
+    for i in range(len(joint_names)):
         joint_name = joint_names[i]
         positions = []
         time = []
 
-        for j in range(points):
+        for j in range(len(points)):
             positions.append(points[j].positions[i])
             time.append(points[j].time_from_start.to_sec())
 
@@ -32,8 +33,10 @@ def plotting_funct(trajectory: RobotTrajectory):
         plt.grid(True)
         plt.tight_layout()
         plt.plot(x_values, y_values, marker=".")
-        fig_name = f'figure/path_{count}_{joint_name}.png'
-        plt.savefig(fig_name, bbox_inches='tight')
+        figure_saved_path = os.path.join(os.path.dirname(__file__), 'figure/')
+        fig_name = f'path_{count}_{joint_name}.png'
+        plt.savefig(figure_saved_path + fig_name, bbox_inches='tight')
+        plt.close()
 
 
 if __name__ == "__main__":

@@ -36,65 +36,61 @@ int main(int argc, char **argv)
     interface.moveit_plan_ee_pose(goal_pose);
     interface.moveit_execute_plan();
 
-    std::cin.get();
     // Cartesian Path
     geometry_msgs::Pose start_pose;
     std::vector<geometry_msgs::Pose> waypoints;
     geometry_msgs::Pose target_pose;
 
+    std::cin.get();
     start_pose = interface.moveit_get_ee_pose();
-    waypoints.push_back(start_pose);
     target_pose = start_pose;
     target_pose.position.z -= 0.08;
     waypoints.push_back(target_pose);
     interface.moveit_plan_cartesian_path(waypoints);
     interface.moveit_execute_plan();
-    interface.attach_object();
 
+    std::cin.get();
     waypoints.clear();
     start_pose = interface.moveit_get_ee_pose();
-    waypoints.push_back(start_pose);
     target_pose = start_pose;
     target_pose.position.z += 0.08;
     waypoints.push_back(target_pose);
     interface.moveit_plan_cartesian_path(waypoints);
     interface.moveit_execute_plan();
 
+    std::cin.get();
     waypoints.clear();
     start_pose = interface.moveit_get_ee_pose();
-    waypoints.push_back(start_pose);
     target_pose = start_pose;
-    target_pose.position.x -= 0.07;
-    target_pose.position.y += 0.07;
+    target_pose.position.x -= 0.08;
     waypoints.push_back(target_pose);
     interface.moveit_plan_cartesian_path(waypoints);
     interface.moveit_execute_plan();
 
+    std::cin.get();
     waypoints.clear();
     start_pose = interface.moveit_get_ee_pose();
-    waypoints.push_back(start_pose);
     target_pose = start_pose;
     target_pose.position.z -= 0.08;
     waypoints.push_back(target_pose);
     interface.moveit_plan_cartesian_path(waypoints);
     interface.moveit_execute_plan();
-    interface.detach_object();
 
+    std::cin.get();
     waypoints.clear();
     start_pose = interface.moveit_get_ee_pose();
-    waypoints.push_back(start_pose);
     target_pose = start_pose;
     target_pose.position.z += 0.08;
     waypoints.push_back(target_pose);
     interface.moveit_plan_cartesian_path(waypoints);
     interface.moveit_execute_plan();
 
-    // Go to home pose
+    std::cin.get();
     joint_values = {0, 0, 0, 0, 0};
     interface.moveit_plan_joint_positions(joint_values);
     interface.moveit_execute_plan();
 
-    // Go to sleep pose
+    std::cin.get();
     joint_values = {0, -1.85, 1.55, 0.8, 0};
     interface.moveit_plan_joint_positions(joint_values);
     interface.moveit_execute_plan();

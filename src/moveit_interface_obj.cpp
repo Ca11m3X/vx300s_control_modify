@@ -5,10 +5,12 @@ InterbotixMoveItInterface::InterbotixMoveItInterface(ros::NodeHandle *node_handl
     : node(*node_handle)
 {
   srv_moveit_plan = node.advertiseService("moveit_plan", &InterbotixMoveItInterface::moveit_planner, this);
+  pub_joint_data = node.advertise<moveit_msgs::RobotTrajectory>("/plot_data", 10);
   static const std::string PLANNING_GROUP = "interbotix_arm";
   move_group = new moveit::planning_interface::MoveGroupInterface(PLANNING_GROUP);
   joint_model_group = move_group->getCurrentState()->getJointModelGroup(PLANNING_GROUP);
   visual_tools = new moveit_visual_tools::MoveItVisualTools(move_group->getPlanningFrame());
+
   visual_tools->deleteAllMarkers();
   text_pose = Eigen::Isometry3d::Identity();
   text_pose.translation().z() = 1;
@@ -120,10 +122,12 @@ bool InterbotixMoveItInterface::moveit_plan_cartesian_path(const std::vector<geo
 
   // If a plan was found for over 90% of the waypoints...
   if (1.0 - fraction < 0.1)
-    // consider that a successful planning attempt
+  // consider that a successful planning attempt
 
+  {
     success = true;
-
+    pub_joint_data.publish(saved_plan.trajectory_);
+  }
   return success;
 }
 

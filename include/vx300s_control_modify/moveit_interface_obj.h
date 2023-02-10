@@ -7,6 +7,7 @@
 #include <moveit_msgs/DisplayRobotState.h>
 #include <moveit_msgs/DisplayTrajectory.h>
 #include <moveit_msgs/AttachedCollisionObject.h>
+#include <moveit_msgs/RobotTrajectory.h>
 #include <moveit_msgs/CollisionObject.h>
 #include <moveit_visual_tools/moveit_visual_tools.h>
 #include <geometry_msgs/Pose.h>
@@ -71,8 +72,9 @@ public:
   void detach_object(void);
 
 private:
-  ros::NodeHandle node;                                                        // ROS node handler
-  ros::ServiceServer srv_moveit_plan;                                          // Service to plan or execute a goal pose for the end-effector
+  ros::NodeHandle node;               // ROS node handler
+  ros::ServiceServer srv_moveit_plan; // Service to plan or execute a goal pose for the end-effector
+  ros::Publisher pub_joint_data;
   Eigen::Isometry3d text_pose;                                                 // Pose of text w.r.t. the 'world' frame in Rviz
   const robot_state::JointModelGroup *joint_model_group;                       // Holds the joints in the 'interbotix_arm' group
   moveit_visual_tools::MoveItVisualTools *visual_tools;                        // Used to display text and other markers in Rviz
