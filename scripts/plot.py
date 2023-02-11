@@ -45,3 +45,5 @@ if __name__ == "__main__":
     sub = rospy.Subscriber("/plot_data", RobotTrajectory, plotting_funct)
 
     rospy.spin()
+
+# abcd

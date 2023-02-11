@@ -14,6 +14,7 @@
 #include <geometry_msgs/Quaternion.h>
 #include <shape_msgs/SolidPrimitive.h>
 #include <tf/tf.h>
+#include <math.h>
 
 class InterbotixMoveItInterface
 {

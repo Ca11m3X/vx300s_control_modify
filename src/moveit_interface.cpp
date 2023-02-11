@@ -48,6 +48,7 @@ int main(int argc, char **argv)
     waypoints.push_back(target_pose);
     interface.moveit_plan_cartesian_path(waypoints);
     interface.moveit_execute_plan();
+    interface.attach_object();
 
     std::cin.get();
     waypoints.clear();
@@ -63,6 +64,10 @@ int main(int argc, char **argv)
     start_pose = interface.moveit_get_ee_pose();
     target_pose = start_pose;
     target_pose.position.x -= 0.08;
+    // target_pose.position.y += 0.08;
+    // double yaw = atan2(target_pose.position.y, target_pose.position.x);
+    // auto euler = q.toRotationMatrix().eulerAngles(0, 1, 2);
+
     waypoints.push_back(target_pose);
     interface.moveit_plan_cartesian_path(waypoints);
     interface.moveit_execute_plan();
@@ -75,6 +80,7 @@ int main(int argc, char **argv)
     waypoints.push_back(target_pose);
     interface.moveit_plan_cartesian_path(waypoints);
     interface.moveit_execute_plan();
+    interface.detach_object();
 
     std::cin.get();
     waypoints.clear();
@@ -95,6 +101,7 @@ int main(int argc, char **argv)
     interface.moveit_plan_joint_positions(joint_values);
     interface.moveit_execute_plan();
 
+    ROS_INFO("===========\"End of InterfaceTutorial\"==========");
     ros::waitForShutdown();
     return 0;
 }
