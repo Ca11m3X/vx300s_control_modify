@@ -5,6 +5,7 @@ InterbotixMoveItInterface::InterbotixMoveItInterface(ros::NodeHandle *node_handl
     : node(*node_handle)
 {
   srv_moveit_plan = node.advertiseService("moveit_plan", &InterbotixMoveItInterface::moveit_planner, this);
+  client_motor_register = node.serviceClient<interbotix_xs_msgs::RegisterValues>("/rx150/set_motor_registers");
   pub_joint_data = node.advertise<moveit_msgs::RobotTrajectory>("/plot_data", 10);
   static const std::string PLANNING_GROUP = "interbotix_arm";
   move_group = new moveit::planning_interface::MoveGroupInterface(PLANNING_GROUP);
@@ -260,4 +261,16 @@ void InterbotixMoveItInterface::attach_object(void)
 void InterbotixMoveItInterface::detach_object(void)
 {
   move_group->detachObject("vat_the_gap");
+}
+
+bool InterbotixMoveItInterface::set_motor_register(int &P_value)
+{
+  interbotix_xs_msgs::RegisterValues service;
+  service.request.cmd_type = "single";
+  service.request.name = "elbow";
+  service.request.reg = "Position_P_Gain";
+  service.request.value = P_value;
+
+  client_motor_register.call(service);
+  return true;
 }

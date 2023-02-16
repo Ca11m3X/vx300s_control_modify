@@ -14,6 +14,8 @@ int main(int argc, char **argv)
     InterbotixMoveItInterface interface(&n);
 
     interface.moveit_scale_ee_velocity(0.5);
+    int P_value = 1700;
+    interface.set_motor_register(P_value);
 
     // Go to home pose
     std::vector<double> joint_values = {0, 0, 0, 0, 0};

@@ -2,6 +2,7 @@
 #define _MOVEIT_INTERFACE_OBJ_H_
 
 #include "interbotix_moveit_interface/MoveItPlan.h"
+#include "interbotix_xs_msgs/RegisterValues.h"
 #include <moveit/move_group_interface/move_group_interface.h>
 #include <moveit/planning_scene_interface/planning_scene_interface.h>
 #include <moveit_msgs/DisplayRobotState.h>
@@ -71,11 +72,13 @@ public:
   void add_a_Box(void);
   void attach_object(void);
   void detach_object(void);
+  bool set_motor_register(int &P_value);
 
 private:
   ros::NodeHandle node;               // ROS node handler
   ros::ServiceServer srv_moveit_plan; // Service to plan or execute a goal pose for the end-effector
   ros::Publisher pub_joint_data;
+  ros::ServiceClient client_motor_register;
   Eigen::Isometry3d text_pose;                                                 // Pose of text w.r.t. the 'world' frame in Rviz
   const robot_state::JointModelGroup *joint_model_group;                       // Holds the joints in the 'interbotix_arm' group
   moveit_visual_tools::MoveItVisualTools *visual_tools;                        // Used to display text and other markers in Rviz
